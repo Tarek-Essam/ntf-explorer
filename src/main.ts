@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import 'dotenv/config';
 import { appConfig } from '@env';
 import { configureHttpLogger, logger, configureSwagger } from '@src/utils';
 import { VersioningType } from '@nestjs/common';

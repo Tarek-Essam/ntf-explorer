@@ -7,10 +7,8 @@ export enum NodeEnv {
 
 export interface AppConfig {
   port: number;
-  infura: {
+  moralis: {
     apiKey: string;
-    apiSecret: string;
-    url: string;
   };
   isProduction: boolean;
   isTest: boolean;

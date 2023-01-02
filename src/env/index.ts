@@ -1,10 +1,8 @@
-import { cleanEnv, str, num, url } from 'envalid';
+import { cleanEnv, str, num } from 'envalid';
 import { AppConfig, NodeEnv } from './types';
 
 const env = cleanEnv(process.env, {
-  INFURA_API_KEY: str(),
-  INFURA_SECRET: str(),
-  INFURA_URL: url(),
+  MORALIS_API_KEY: str(),
   NODE_ENV: str({ choices: Object.values(NodeEnv) }),
   PORT: num({ default: 3000 }),
 });
@@ -12,10 +10,8 @@ const env = cleanEnv(process.env, {
 export const appConfig: AppConfig = {
   port: env.PORT,
   nodeEnv: env.NODE_ENV,
-  infura: {
-    apiKey: env.INFURA_API_KEY,
-    apiSecret: env.INFURA_SECRET,
-    url: env.INFURA_URL,
+  moralis: {
+    apiKey: env.MORALIS_API_KEY,
   },
   isProduction: env.isProduction,
   isDev: env.isDev,

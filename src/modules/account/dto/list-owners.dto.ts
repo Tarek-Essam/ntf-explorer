@@ -1,6 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsHexadecimal, IsNumberString, ValidateNested, Length } from 'class-validator';
+import {
+  IsArray,
+  IsHexadecimal,
+  IsNumberString,
+  ValidateNested,
+  Length,
+  ArrayMinSize,
+  ArrayNotEmpty,
+} from 'class-validator';
 
 export class Token {
   @ApiProperty({
@@ -28,6 +36,8 @@ export class TokensInputDto {
   })
   @Type(() => Token)
   @ValidateNested({ each: true })
+  @ArrayNotEmpty()
+  @ArrayMinSize(1)
   @IsArray()
   tokens: Token[];
 }

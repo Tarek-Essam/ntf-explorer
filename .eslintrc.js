@@ -15,7 +15,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'jest.config.js', 'test/reporter.js', 'src/**/*.d.ts', 'src/core/pipeline/**'],
   rules: {
     'prettier/prettier': ['error', { printWidth: 100 }],
     '@typescript-eslint/interface-name-prefix': 'off',

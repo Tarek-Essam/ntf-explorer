@@ -1,36 +1,16 @@
 import 'dotenv/config';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Server } from 'http';
 import { appConfig } from '@env';
-import { configureHttpLogger, logger, configureSwagger } from '@src/utils';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { AllExceptionsFilter } from '@src/filters';
+import { logger } from '@src/utils';
+import { appInstancePromise } from './bootstrap';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  app.enableVersioning({ type: VersioningType.URI });
-
-  configureHttpLogger(app);
-
-  configureSwagger(app);
-
-  app.useGlobalFilters(new AllExceptionsFilter());
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      errorHttpStatusCode: 422,
-      stopAtFirstError: false,
-      enableDebugMessages: true,
-      transformOptions: { enableImplicitConversion: true, exposeDefaultValues: true },
-    }),
-  );
-
-  await app.listen(appConfig.port);
-
-  logger.info(`server is listening on port ${appConfig.port}`);
-}
-
-bootstrap();
+export const serverPromise: Promise<Server> = appInstancePromise
+  .then(async (app) => {
+    await app.listen(appConfig.port);
+    logger.info(`Listening on ${appConfig.port}`);
+    return app.getHttpServer();
+  })
+  .catch((err) => {
+    console.error(`server failed to start`, err);
+    process.exit(1);
+  });

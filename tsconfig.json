@@ -29,7 +29,16 @@
     "paths": {
       "@src/*": [ "src/*" ],
       "@env": [ "src/env" ],
-      "@modules/*": [ "src/modules/*" ],
+      "@modules/*": [ "src/modules/*" ]
     }
-  }
+  },
+  "include": [
+    "src",
+    "env",
+    "test"
+],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

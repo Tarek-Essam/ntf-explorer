@@ -1,8 +1,15 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccountService } from '../services/account.service';
 import { accountRoutesV1 } from '../account.router';
-import { ListAccountResponseDto, TokensInputDto } from '../dto';
+import {
+  ListAccountResponseDto,
+  TokensInputDto,
+  AccountAddressDto,
+  AccountBalanceDto,
+  TokenAddressesDto,
+} from '../dto';
+import { IAccountBalance } from '@src/modules/nft-sdk/types';
 
 @ApiTags('account')
 @Controller({
@@ -26,5 +33,23 @@ export class AccountController {
   async listAccount(@Body() body: TokensInputDto): Promise<ListAccountResponseDto> {
     const addresses = await this.accountService.listAccountsByTokens(body.tokens);
     return { addresses };
+  }
+
+  @Get(accountRoutesV1.getAccountBalance)
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'get account balance',
+    description: 'get account balance for all token addresses',
+    operationId: 'V1GetAccountBalance',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: AccountBalanceDto,
+  })
+  async getAccountBalance(
+    @Param() param: AccountAddressDto,
+    @Query() query: TokenAddressesDto,
+  ): Promise<IAccountBalance> {
+    return this.accountService.getAccountBalance(param.accountAddress, query.tokenAddresses);
   }
 }

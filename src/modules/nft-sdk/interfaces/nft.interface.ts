@@ -1,5 +1,6 @@
-import { IToken } from '../types';
+import { IToken, IAccountBalance } from '../types';
 
 export interface NftDataSource {
-  getNftOwners(params: IToken[]): Promise<string[]>;
+  getNftOwners(tokens: IToken[]): Promise<string[]>;
+  getAccountBalance(accountAddress: string, tokenAddresses?: string[]): Promise<IAccountBalance>;
 }

@@ -14,7 +14,50 @@ This service use [Moralis](https://moralis.io/) to avail APIs to retrieve inform
 
     Assuming the API will the receive owner wallet address and return the NFT balance for this owner.
 
+## APIs Contract
+1. List Accounts
 
+Request
+```
+POST /v1/account
+
+
+{
+  "tokens": [
+    {
+      "tokenId": "7711",
+      "tokenAddress": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
+    }
+  ]
+}
+```
+Response
+```
+{
+  "addresses": [
+    "0x7811c6a535ddff8f86bfdeade882e744bc9fe380",
+    "0x2c74fd427e36a5c22f164093147eace027ec5706"
+  ]
+}
+```
+2. Account Balance
+
+Request
+```
+GET /v1/account/0x7811c6a535ddff8f86bfdeade882e744bc9fe380/balance?tokenAddresses=0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D&
+```
+Response
+```
+{
+  "totalBalance": 170,
+  "details": [
+    {
+      "tokenAddress": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+      "balance": 10
+    }
+  ]
+}
+```
 ## Installation
 
 ```bash
